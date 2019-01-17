@@ -92,6 +92,21 @@ app.patch('/todos/:id', (req, res) => {
     });
 })
 
+app.post('/users', (req, res) => {
+    let body = _.pick(req.body, ['email', 'password']);
+    let user = new User(body);
+
+    user.save().then(() => {
+        return user.generateAuthToken(); 
+    }).then((token) => {
+        res.header('x-auth', token).send(user);
+    }).catch((e) => {
+        res.status(400).send(e);
+    });
+    // can also use .catch((e) => { res.status(400).send(e); })
+});
+
+
 app.listen(port, () => {
     console.log(`Starting on port ${port}`);
 })
@@ -100,25 +115,3 @@ module.exports = {
     app
 }
 
-
-// let newTodo = new Todo({
-//     text: '   edit this video   ',
-
-// });
-
-// newTodo.save().then( (doc) => {
-//     console.log(JSON.stringify(doc, undefined, 4))
-// }, (err) => {
-//     console.log('Unable to save todo', err)
-// });
-
-// let newUser = new User({
-//     email: "lucas@google.com   ",
-// });
-
-// newUser.save().then( (doc) => {
-//     console.log("User saved");
-//     console.log(JSON.stringify(doc, undefined, 4));
-// }, (err)=>{
-//     console.log('Unable to save user', err)
-// })
