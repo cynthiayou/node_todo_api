@@ -79,6 +79,7 @@ UserSchema.statics.findByToken = function (token) {
   });
 };
 
+
 UserSchema.statics.findByCredentials = function (email, password) {
   var User = this;
 

@@ -106,7 +106,7 @@ app.patch('/todos/:id', authenticate, (req, res) => {
   })
 });
 
-// POST /users
+// POST /users, for user registration
 app.post('/users', (req, res) => {
   var body = _.pick(req.body, ['email', 'password']);
   var user = new User(body);
@@ -119,6 +119,7 @@ app.post('/users', (req, res) => {
     res.status(400).send(e);
   })
 });
+
 
 app.get('/users/me', authenticate, (req, res) => {
   res.send(req.user);
@@ -144,8 +145,12 @@ app.delete('/users/me/token', authenticate, (req, res) => {
   });
 });
 
+
+
 app.listen(port, () => {
   console.log(`Started up at port ${port}`);
 });
+
+
 
 module.exports = {app};
